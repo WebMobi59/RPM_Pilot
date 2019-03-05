@@ -10,9 +10,11 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
+export default class AddScreen extends Component {
+  static navigationOptions = {
+    drawerLabel: 'Add Location',
+  };
 
-type Props = {};
-export default class AddScreen extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
