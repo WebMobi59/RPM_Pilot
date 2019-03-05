@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {AsyncStorage, StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { initial_data } from '../../assets/data/config';
 
 export default class ListScreen extends Component {
   constructor(props) {
@@ -10,16 +11,27 @@ export default class ListScreen extends Component {
     }
   }
 
-  async componentDidMount() {
-    try {
-      const data = await AsyncStorage.getItem('data');
-      this.setState({
-        locations: JSON.parse(data)
-      })
-    } catch (error) {
-      console.log('Error occured when fetch data.')
-      console.log(error.message)
-    }
+  componentDidMount() {
+    AsyncStorage.getItem('data').then((res, error) => {
+      if (error) {
+        console.log('Error occured when fetch data.')
+      } else {
+        if (res) {
+          this.setState({
+            locations: JSON.parse(res)
+          })
+        } else {
+          AsyncStorage.setItem('data', JSON.stringify(initial_data))
+          .then((res) => {
+           this.setState({
+             locations: initial_data
+           })
+          }).catch((err) => {
+            console.log('Error occured when save data.')
+          }) 
+        }
+      }
+    });
   }
 
   render() {
