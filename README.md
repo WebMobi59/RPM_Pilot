@@ -25,6 +25,8 @@ After you finish the environment setup, please run following commands in your te
 
 > react-native link react-native-gesture-handler
 
+> react-native link react-native-vector-icons
+
 
 ## Run
 
