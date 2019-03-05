@@ -4,7 +4,9 @@ import { AppNavigator } from './src/screens/AppNavigator';
 
 export default class App extends Component {
   componentDidMount() {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000)
   }
 
   render() {

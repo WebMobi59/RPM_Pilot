@@ -8,31 +8,33 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Image, View} from 'react-native';
-import {createAppContainer, createDrawerNavigator, DrawerItems} from 'react-navigation';
+import {Platform, StyleSheet, Image, View, Text} from 'react-native';
+import {createAppContainer, createDrawerNavigator, DrawerItems, createStackNavigator} from 'react-navigation';
 import DetailScreen from './detail';
 import ListScreen from './list';
 import AddScreen from './add';
 
 
 export const AppNavigator = createAppContainer(
-    createDrawerNavigator({
-        List: {
-            screen: ListScreen
-        },
-        Detail: {
-            screen: DetailScreen
-        },
-        Add: {
-            screen: AddScreen
-        }
+        createStackNavigator({
+            screen: createDrawerNavigator({
+                List: {
+                    screen: ListScreen
+                },
+                Detail: {
+                    screen: DetailScreen
+                },
+                Add: {
+                    screen: AddScreen
+                }
+            })
         }, {
-            contentComponent: (props) => (
-                <View style={{padding: 20}}>
-                    <Image source={require('../assets/images/logo.png')}/>
-                    <DrawerItems {...props}/>
-                </View>
-            )
-        }
-    )
+            headerMode: 'float',
+            defaultNavigationOptions: ({navigation}) => ({
+                headerStyle: {backgroundColor: '#4C3E54'},
+                headerTintColor: 'white',
+                title: 'Welcome!',
+                headerLeft: <Text onPress={() => navigation.toggleDrawer()}>Menu</Text>
+            })
+        })
 );
