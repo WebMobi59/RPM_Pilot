@@ -1,25 +1,46 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {AsyncStorage, StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class ListScreen extends Component {
-  static navigationOptions = {
-    drawerLabel: 'Locations',
-    title: 'Locations'
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      locations: []
+    }
+  }
+
+  async componentDidMount() {
+    try {
+      const data = await AsyncStorage.getItem('data');
+      this.setState({
+        locations: JSON.parse(data)
+      })
+    } catch (error) {
+      console.log('Error occured when fetch data.')
+      console.log(error.message)
+    }
+  }
 
   render() {
+    const { locations } = this.state;
+    const { navigation } = this.props;
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to LIST Screen!</Text>
+      <View style={{flex: 1}}>
+        <ScrollView style={styles.container}>
+          {
+            locations.map((location, index) => {
+              return <TouchableOpacity key={index} style={styles.itemContainer} onPress={() => navigation.navigate('Detail', {data: location})}>
+                <Text style={{color: 'black', fontSize: 18}}>{location.state}</Text>
+                <Text style={{color: 'gray', fontSize: 16}}>{location.capital}</Text>
+              </TouchableOpacity>
+            })
+          }
+        </ScrollView>
+
+        <TouchableOpacity style={styles.addButtonContainer} onPress={() => navigation.navigate('Add')}>
+          <Icon name={'ios-add'} size={50} color={'white'}/>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -28,18 +49,32 @@ export default class ListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingTop: 20
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 3,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 6,
+    borderWidth: 0.5,
+    borderColor: 'gray'
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  addButtonContainer: {
+    position: 'absolute',
+    bottom: 50,
+    right: 30,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4C3E54'
+  }
 });

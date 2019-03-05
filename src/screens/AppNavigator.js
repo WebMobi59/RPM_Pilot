@@ -8,8 +8,8 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
-import {createAppContainer, createDrawerNavigator, DrawerItems, createStackNavigator} from 'react-navigation';
+import {TouchableOpacity} from 'react-native';
+import {createAppContainer, createDrawerNavigator, createStackNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DetailScreen from './detail';
 import ListScreen from './list';
