@@ -6,7 +6,6 @@ import { initial_data } from './src/assets/data/config.js';
 
 export default class App extends Component {
   componentDidMount() {
-    console.log(initial_data);
     AsyncStorage.setItem('data', JSON.stringify(initial_data))
     .then((res) => {
       setTimeout(() => {

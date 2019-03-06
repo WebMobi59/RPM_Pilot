@@ -3,7 +3,7 @@ import {TouchableOpacity, StyleSheet, TextInput, Text, View, AsyncStorage} from 
 import Toast, {DURATION} from 'react-native-easy-toast';
 
 const API_URL = 'https://maps.googleapis.com/maps/api/geocode/json?'
-const API_KEY = '' // put your API_Key here.
+const API_KEY = 'AIzaSyBfUD3duapF-3f1Ppngz2_sdC5Z81MsXMc' // put your API_Key here.
 
 export default class AddScreen extends Component {
   constructor(props) {
@@ -84,7 +84,7 @@ export default class AddScreen extends Component {
             this._addData(state, city);
           }, 2000)
         } else {
-
+          this.refs.toast.show('API request denied.', DURATION.LENGTH_LONG);
         }
       }).catch((err) => {
         this.refs.toast.show('Error occured from Google Map API.', DURATION.LENGTH_LONG);

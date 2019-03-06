@@ -97,6 +97,8 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    flavorDimensions "default"
+
     defaultConfig {
         applicationId "com.rpm_pilot"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -119,6 +121,15 @@ android {
         }
     }
     // applicationVariants are e.g. debug, release
+    productFlavors {
+        qa {
+            minSdkVersion rootProject.ext.minSdkVersion
+            applicationId 'com.rpm_pilot.qa'
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            resValue "string", "build_config_package", "com.myapp"
+        }
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:

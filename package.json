@@ -8,13 +8,13 @@
     "postinstall": "react-native-schemes-manager all"
   },
   "xcodeSchemes": {
-      "Debug": [
-          "Qa.Debug"
-      ],
-      "Release": [
-          "Qa.Release"
-      ],
-      "projectDirectory": "iOS"
+    "Debug": [
+      "Qa.Debug"
+    ],
+    "Release": [
+      "Qa.Release"
+    ],
+    "projectDirectory": "iOS"
   },
   "projectDirectory": "iOS",
   "dependencies": {

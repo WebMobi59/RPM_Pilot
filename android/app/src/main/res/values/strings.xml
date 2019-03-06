@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">RPM_Pilot</string>
+    <string name="app_name">RPM Pilot</string>
+    <string name="zipcode">30301</string>
 </resources>

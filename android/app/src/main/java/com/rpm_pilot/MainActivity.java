@@ -7,6 +7,8 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import org.devio.rn.splashscreen.SplashScreen;
 import android.os.Bundle;
 
+import javax.annotation.Nullable;
+
 public class MainActivity extends ReactActivity {
 
     /**
@@ -25,7 +27,15 @@ public class MainActivity extends ReactActivity {
         protected ReactRootView createRootView() {
             return new RNGestureHandlerEnabledRootView(MainActivity.this);
         }
-    };
+
+            @Nullable
+            @Override
+            protected Bundle getLaunchOptions() {
+                Bundle initialProps = new Bundle();
+                initialProps.putString("zip_code", getResources().getString(R.string.zipcode));
+                return  initialProps;
+            }
+        };
   }
 
     @Override
