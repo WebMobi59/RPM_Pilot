@@ -18,10 +18,12 @@
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  NSString *zipcode = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ZIP_CODE"];
+  NSDictionary *props = @{@"zip_code" : zipcode};
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"RPM_Pilot"
-                                               initialProperties:nil
+                                               initialProperties:props
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [UIColor blackColor];
 

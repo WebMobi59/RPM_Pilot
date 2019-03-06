@@ -9,9 +9,12 @@ export default class ListScreen extends Component {
     this.state = {
       locations: []
     }
+    this.refetchData = this.props.navigation.addListener('willFocus', () => {
+      this._fetchData();
+    })
   }
 
-  componentDidMount() {
+  _fetchData = () => {
     AsyncStorage.getItem('data').then((res, error) => {
       if (error) {
         console.log('Error occured when fetch data.')
@@ -32,6 +35,14 @@ export default class ListScreen extends Component {
         }
       }
     });
+  }
+
+  componentDidMount() {
+    this._fetchData();
+  }
+
+  componentWillUnmount(){
+    this.refetchData;
   }
 
   render() {

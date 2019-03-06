@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, StyleSheet, TextInput, Text, View} from 'react-native';
+import {TouchableOpacity, StyleSheet, TextInput, Text, View, AsyncStorage} from 'react-native';
 import Toast, {DURATION} from 'react-native-easy-toast';
+
+const API_URL = 'https://maps.googleapis.com/maps/api/geocode/json?'
+const API_KEY = '' // put your API_Key here.
 
 export default class AddScreen extends Component {
   constructor(props) {
@@ -10,8 +13,51 @@ export default class AddScreen extends Component {
     }
   }
 
+  componentDidMount() {
+    const { zip_code } = this.props.screenProps;
+    this.setState({
+      zipcode: zip_code
+    })
+  }
+
   _validateUSZipCode = (zipcode) => {
     return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipcode);
+  }
+
+  _getCityName = (data) => {
+    const result = data.filter((item) => {
+      return item.types.includes('locality') == true
+    })
+    return result[0].long_name;
+  }
+
+  _getStateName = (data) => {
+    const result = data.filter((item) => {
+      return item.types.includes('administrative_area_level_1') == true
+    })
+    return result[0].long_name + ` (${result[0].short_name})`;
+  }
+
+  _addData = (state, city) => {
+    AsyncStorage.getItem('data').then((res, error) => {
+      if (error) {
+        console.log('Error occured when fetch data.')
+      } else {
+        if (res) {
+          var data = JSON.parse(res);
+          data.push({
+            state: state,
+            capital: city
+          });
+          AsyncStorage.setItem('data', JSON.stringify(data))
+          .then(() => {
+            this.props.navigation.navigate('List');
+          }).catch(() => {
+            console.log('Error occured when save data.')
+          }) 
+        }
+      }
+    });
   }
 
   _continue = () => {
@@ -20,6 +66,29 @@ export default class AddScreen extends Component {
       this.refs.toast.show('You need to fill the zipcode.', DURATION.LENGTH_LONG);
     } else if (!this._validateUSZipCode(zipcode)) {
       this.refs.toast.show('It seems your zipcode is invalid.', DURATION.LENGTH_LONG);
+    } else {
+      fetch(API_URL + `key=${API_KEY}&address=${this.state.zipcode}`, {
+        method: 'GET'
+      })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status == 'OK') {
+          const data = result.results[0].address_components;
+          const city = this._getCityName(data);
+          const state = this._getStateName(data);
+
+          console.log(data);
+          console.log(city, state);
+          this.refs.toast.show(`Status: ${state} \n City: ${city}`, DURATION.LENGTH_LONG);
+          setTimeout(() => {
+            this._addData(state, city);
+          }, 2000)
+        } else {
+
+        }
+      }).catch((err) => {
+        this.refs.toast.show('Error occured from Google Map API.', DURATION.LENGTH_LONG);
+      })
     }
   }
 
