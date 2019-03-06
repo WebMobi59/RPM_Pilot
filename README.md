@@ -28,12 +28,22 @@ After you finish the environment setup, please run following commands in your te
 > react-native link react-native-vector-icons
 
 
+### Google Maps API
+
+Please get Google Maps API Key and put it at line 6 in **./add/index.js**. Please look at [here](https://developers.google.com/maps/documentation/geocoding/start) for more about google geocoding.
+
+
 ## Run
 
 ### For iOS
 
 For iOS, please run following command.
 > react-native run-ios  
+
+To run Qa scheme, Try this command on terminal.
+> react-native run-ios --scheme RPM_Pilot_Qa
+
+Or you can run project with any scheme on Xcode.
 
 For more details, please reference [official document for iOS](https://facebook.github.io/react-native/docs/getting-started#running-your-react-native-application-1)
 
